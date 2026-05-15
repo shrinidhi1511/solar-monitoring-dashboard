@@ -1,0 +1,636 @@
+@import '../../styles/variables.scss';
+
+$purple: #a855f7;
+$energy-bar-gradient: linear-gradient(180deg, #4ae176 0%, #006e2f 100%);
+
+// ─── Page shell ────────────────────────────────────────────────────────────────
+.meter-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+// ─── Page header (reused from before) ─────────────────────────────────────────
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: $on-surface;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .breadcrumb {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $outline;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+
+    .breadcrumb-active { color: $primary; }
+  }
+
+  .header-actions { display: flex; gap: 12px; }
+
+  .btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: $surface-container-lowest;
+    border: 1px solid rgba($outline-variant, 0.3);
+    border-radius: 12px;
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: 600;
+    color: $on-surface;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: $surface-container-high; }
+    .material-symbols-outlined { font-size: 20px; }
+  }
+
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: $primary;
+    border: none;
+    border-radius: 12px;
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: 600;
+    color: $on-primary;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba($primary, 0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+
+    &:hover  { transform: scale(1.02); box-shadow: 0 12px 28px rgba($primary, 0.3); }
+    &:active { transform: scale(0.98); }
+    .material-symbols-outlined { font-size: 20px; }
+  }
+}
+
+// ─── Filter Section ────────────────────────────────────────────────────────────
+.mg-filter-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @media (min-width: 1024px) { grid-template-columns: 10fr 2fr; }
+
+  .mg-filter-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 24px;
+    background: $surface-container-lowest;
+    border-radius: 20px;
+    border: 1px solid rgba($outline-variant, 0.1);
+    box-shadow: 0 2px 12px rgba(25,28,30,0.05);
+
+    @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .mg-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .mg-filter-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: $outline;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding-left: 4px;
+    }
+  }
+
+  .mg-span-toggle {
+    display: flex;
+    background: $surface-container-low;
+    padding: 4px;
+    border-radius: 12px;
+
+    .mg-span-btn {
+      flex: 1;
+      padding: 8px 0;
+      border: none;
+      background: transparent;
+      font-family: $font-family;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      color: $on-surface-variant;
+      transition: all 0.2s;
+
+      &.active {
+        background: $primary;
+        color: $on-primary;
+        box-shadow: 0 2px 10px rgba($primary, 0.35);
+      }
+      &:not(.active):hover { background: $surface-container-high; }
+    }
+  }
+
+  .mg-filter-select {
+    width: 100%;
+    background: $surface-container-low;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: 600;
+    color: $on-surface-variant;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+
+    &:focus { box-shadow: 0 0 0 2px rgba($primary, 0.25); }
+  }
+
+  .mg-filter-update {
+    display: flex;
+    align-items: flex-end;
+
+    .mg-update-btn {
+      width: 100%;
+      height: 56px;
+      background: $on-surface;
+      border: none;
+      border-radius: 20px;
+      font-family: $font-family;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: $on-primary;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.25s, transform 0.15s;
+
+      &:hover  { background: $primary; }
+      &:active { transform: scale(0.98); }
+      .material-symbols-outlined { font-size: 20px; }
+    }
+  }
+}
+
+// ─── Chart Card ───────────────────────────────────────────────────────────────
+.mg-chart-card {
+  background: $surface-container-lowest;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 12px 40px rgba(25,28,30,0.07);
+  border: 1px solid rgba($outline-variant, 0.1);
+
+  // Header ──────────────────────────────────────────────────
+  .mg-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .mg-chart-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: $on-surface;
+    }
+
+    .mg-chart-sub {
+      font-size: 13px;
+      color: $outline-variant;
+      margin-top: 4px;
+    }
+
+    .mg-legend {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .mg-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        color: $on-surface-variant;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .mg-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+
+        &.secondary { background: $secondary; }
+        &.purple    { background: $purple; }
+        &.tertiary  { background: $tertiary; }
+      }
+    }
+  }
+
+  // Chart body (Y-axis + plot) ──────────────────────────────
+  .mg-chart-wrap {
+    display: flex;
+    gap: 0;
+    height: 420px;
+    margin-bottom: 32px;
+  }
+
+  .mg-y-axis {
+    width: 56px;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-right: 12px;
+    padding-bottom: 24px; // leave room for x labels
+    position: relative;
+
+    .mg-y-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: $outline;
+    }
+
+    .mg-y-title {
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-size: 9px;
+      font-weight: 700;
+      color: $outline;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+  }
+
+  .mg-plot {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    border-left: 1px solid rgba($outline-variant, 0.2);
+    border-bottom: 1px solid rgba($outline-variant, 0.2);
+
+    // Grid lines ──────────────────────────────────────────────
+    .mg-grid {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      pointer-events: none;
+
+      .mg-grid-line {
+        width: 100%;
+        border-top: 1px dashed rgba($outline-variant, 0.35);
+      }
+    }
+
+    // CUF reference lines ────────────────────────────────────
+    .mg-cuf-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 0;
+      border-top: 2px dashed;
+      pointer-events: none;
+      display: flex;
+      align-items: flex-end;
+
+      &.mg-cuf-ac {
+        top: 25%;
+        border-color: rgba($purple, 0.5);
+
+        .mg-cuf-label { color: $purple; }
+      }
+      &.mg-cuf-dc {
+        top: 50%;
+        border-color: rgba($tertiary, 0.4);
+
+        .mg-cuf-label { color: $tertiary; }
+      }
+
+      .mg-cuf-label {
+        position: absolute;
+        right: 8px;
+        top: -18px;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: $surface-container-lowest;
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+    }
+
+    // Bars ────────────────────────────────────────────────────
+    .mg-bars {
+      position: absolute;
+      inset: 0;
+      bottom: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      padding: 0 24px 24px;
+    }
+
+    .mg-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      position: relative;
+      cursor: pointer;
+
+      // Tooltip ──────────────────────────────────────────────
+      .mg-tooltip {
+        position: absolute;
+        bottom: calc(var(--bar-height, 0%) + 36px);
+        white-space: nowrap;
+        background: $on-surface;
+        color: $on-primary;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(6px);
+        transition: opacity 0.2s, transform 0.2s;
+        z-index: 20;
+
+        &.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .tt-value {
+          font-size: 13px;
+          font-weight: 800;
+        }
+        .tt-cuf {
+          font-size: 10px;
+          font-weight: 600;
+          color: rgba($on-primary, 0.7);
+          margin-top: 2px;
+        }
+
+        .tt-arrow {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 6px solid transparent;
+          border-top-color: $on-surface;
+        }
+      }
+
+      // Bar ──────────────────────────────────────────────────
+      .mg-energy-bar {
+        width: 36px;
+        height: 0;             // starts at 0 for animation
+        background: $energy-bar-gradient;
+        border-radius: 5px 5px 0 0;
+        transition: height 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s;
+        min-height: 0;
+
+        &.entered {
+          height: var(--bar-height, 0%);
+        }
+
+        &.highlight {
+          box-shadow: 0 0 0 4px rgba($primary, 0.12), 0 0 20px rgba($secondary, 0.3);
+        }
+      }
+
+      &:hover .mg-energy-bar { filter: brightness(1.15); }
+
+      // Label ────────────────────────────────────────────────
+      .mg-bar-label {
+        margin-top: 10px;
+        font-size: 10px;
+        font-weight: 700;
+        color: $outline;
+        text-transform: uppercase;
+        transition: color 0.2s;
+
+        &.hl { color: $primary; }
+      }
+
+      &:hover .mg-bar-label { color: $on-surface; }
+    }
+  }
+
+  // Zoom controls ───────────────────────────────────────────
+  .mg-zoom-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    .mg-zoom-btn {
+      padding: 8px;
+      background: $surface-container-low;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      color: $on-surface;
+      transition: background 0.2s, transform 0.15s;
+      display: flex;
+
+      &:hover  { background: $surface-container-high; }
+      &:active { transform: scale(0.9); }
+      .material-symbols-outlined { font-size: 22px; }
+    }
+
+    .mg-zoom-track {
+      width: 220px;
+      height: 8px;
+      background: $surface-container-high;
+      border-radius: 9999px;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+
+      .mg-zoom-thumb {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: rgba($primary, 0.35);
+        border-radius: 9999px;
+        pointer-events: none;
+      }
+
+      .mg-zoom-handle {
+        position: absolute;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        background: $primary;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 2px 8px rgba($primary, 0.4);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        transition: box-shadow 0.2s;
+      }
+
+      &:hover .mg-zoom-handle {
+        box-shadow: 0 2px 12px rgba($primary, 0.55);
+      }
+    }
+
+    .mg-zoom-pct {
+      font-size: 11px;
+      font-weight: 700;
+      color: $outline;
+      min-width: 36px;
+      text-align: center;
+    }
+  }
+}
+
+// ─── Metrics row ──────────────────────────────────────────────────────────────
+.metrics-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding-bottom: 48px;
+
+  @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.mg-metric-card {
+  background: $surface-container-lowest;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba($outline-variant, 0.1);
+  box-shadow: 0 2px 10px rgba(25,28,30,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(25,28,30,0.1);
+  }
+
+  .mg-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+
+    .mg-metric-icon {
+      font-size: 32px;
+
+      &.color-secondary { color: $secondary; }
+      &.color-purple    { color: $purple; }
+      &.color-primary   { color: $primary; }
+    }
+
+    .mg-metric-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+
+      &.badge-secondary { background: rgba($secondary, 0.1); color: $secondary; }
+      &.badge-purple    { background: rgba($purple, 0.1);    color: $purple; }
+      &.badge-primary   { background: rgba($primary, 0.1);   color: $primary; }
+    }
+  }
+
+  .mg-metric-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $outline;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 6px;
+  }
+
+  .mg-metric-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 12px;
+
+    .val {
+      font-size: 30px;
+      font-weight: 800;
+      color: $on-surface;
+      letter-spacing: -0.03em;
+    }
+
+    .unit {
+      font-size: 16px;
+      font-weight: 600;
+      color: $outline-variant;
+    }
+  }
+
+  .mg-metric-spark {
+    width: 100%;
+
+    .sparkline {
+      width: 100%;
+      height: 28px;
+      display: block;
+      overflow: visible;
+    }
+  }
+}
+
+// ─── Atmosphere image ─────────────────────────────────────────────────────────
+.mg-atmo-img {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 320px;
+  height: 320px;
+  z-index: 0;
+  opacity: 0.05;
+  pointer-events: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,501 @@
+@import '../../styles/variables.scss';
+
+$energy-bar-gradient: linear-gradient(180deg, #4ae176 0%, #006e2f 100%);
+$purple: #a855f7;
+
+// ─── Page shell ───────────────────────────────────────────────────────────────
+.meter-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// ─── KPI Row ──────────────────────────────────────────────────────────────────
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.kpi-card {
+  background: $surface-container-lowest;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba($outline-variant, 0.1);
+  box-shadow: 0 2px 8px rgba(25,28,30,0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(25,28,30,0.08);
+    transform: translateY(-2px);
+  }
+
+  .kpi-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .kpi-icon-wrap {
+    padding: 8px;
+    border-radius: 12px;
+
+    .material-symbols-outlined { font-size: 26px; }
+
+    &.color-secondary { background: rgba($secondary, 0.1); color: $secondary; }
+    &.color-primary   { background: rgba($primary, 0.1);   color: $primary; }
+    &.color-tertiary  { background: rgba($tertiary, 0.1);  color: $tertiary; }
+  }
+
+  .kpi-badge {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 8px;
+    border-radius: 6px;
+
+    &.badge-secondary { background: rgba($secondary, 0.1); color: $secondary; }
+    &.badge-primary   { background: rgba($primary, 0.1);   color: $primary; }
+    &.badge-tertiary  { background: rgba($tertiary, 0.1);  color: $tertiary; }
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: $outline;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .kpi-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+
+    .val {
+      font-size: 30px;
+      font-weight: 800;
+      color: $on-surface;
+      letter-spacing: -0.03em;
+    }
+
+    .unit {
+      font-size: 14px;
+      font-weight: 600;
+      color: $outline-variant;
+    }
+  }
+}
+
+// ─── Tab Switcher ─────────────────────────────────────────────────────────────
+.tab-switcher {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px;
+  background: $surface-container-low;
+  border-radius: 14px;
+  border: 1px solid rgba($outline-variant, 0.1);
+  box-shadow: 0 2px 6px rgba(25,28,30,0.04);
+  gap: 2px;
+
+  .tab-btn {
+    padding: 8px 24px;
+    border: none;
+    border-radius: 10px;
+    font-family: $font-family;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: $on-surface-variant;
+    background: transparent;
+    transition: all 0.2s;
+
+    &.active {
+      background: $primary;
+      color: $on-primary;
+      box-shadow: 0 4px 12px rgba($primary, 0.3);
+    }
+
+    &:not(.active):hover {
+      background: $surface-container-high;
+    }
+  }
+}
+
+// ─── Shared chart card ────────────────────────────────────────────────────────
+.chart-card {
+  background: $surface-container-lowest;
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid rgba($outline-variant, 0.1);
+  box-shadow: 0 12px 40px rgba(25,28,30,0.06);
+
+  .chart-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: $on-surface;
+    }
+
+    .card-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+}
+
+// ─── Main chart filters ───────────────────────────────────────────────────────
+.main-chart {
+  .chart-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba($outline-variant, 0.1);
+
+    .filter-field {
+      flex: 1;
+      min-width: 200px;
+
+      label {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        color: $outline;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+        padding-left: 4px;
+      }
+
+      .date-input {
+        width: 100%;
+        background: $surface-container-low;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-family: $font-family;
+        font-size: 14px;
+        font-weight: 600;
+        color: $on-surface;
+        outline: none;
+
+        &:focus { box-shadow: 0 0 0 2px rgba($primary, 0.2); }
+      }
+    }
+
+    .btn-primary {
+      background: $primary;
+      color: $on-primary;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 32px;
+      font-family: $font-family;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba($primary, 0.25);
+      transition: opacity 0.2s;
+      white-space: nowrap;
+
+      &:hover { opacity: 0.9; }
+    }
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    margin-bottom: 32px;
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      color: $on-surface-variant;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+
+        &.secondary { background: $secondary; }
+        &.primary   { background: $primary; }
+        &.tertiary  { background: $tertiary; }
+      }
+    }
+  }
+
+  // Bar chart
+  .bar-chart-area {
+    position: relative;
+    height: 400px;
+    padding: 0 48px;
+
+    .y-axis-label {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateX(-12px) translateY(-50%) rotate(-90deg);
+      font-size: 10px;
+      font-weight: 700;
+      color: $outline;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .cuf-line {
+      position: absolute;
+      left: 48px;
+      right: 0;
+      height: 2px;
+      pointer-events: none;
+
+      &.cuf-ac {
+        top: 25%;
+        background: rgba($primary, 0.2);
+      }
+      &.cuf-dc {
+        top: 50%;
+        background: rgba($tertiary, 0.2);
+      }
+    }
+
+    .bars {
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+
+      .bar-col {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+
+        .energy-bar {
+          width: 100%;
+          background: $energy-bar-gradient;
+          border-radius: 4px 4px 0 0;
+          transition: filter 0.2s;
+          min-height: 4px;
+
+          &.highlight-ring {
+            box-shadow: 0 0 0 4px rgba($primary, 0.1);
+          }
+
+          &:hover {
+            filter: brightness(1.12);
+          }
+        }
+
+        .bar-label {
+          margin-top: 16px;
+          font-size: 10px;
+          font-weight: 700;
+          color: $outline;
+          text-transform: uppercase;
+          text-align: center;
+
+          &.hl-text { color: $primary; }
+        }
+      }
+    }
+  }
+}
+
+// ─── Bottom row ───────────────────────────────────────────────────────────────
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding-bottom: 48px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.side-card {
+  padding: 24px;
+
+  h3 {
+    font-size: 15px;
+  }
+
+  // ── Area Chart ────────────────────────────────────────────
+  .mini-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+
+    .mini-item {
+      font-size: 9px;
+      font-weight: 600;
+      color: $outline;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      &::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+
+      &.secondary::before { background: $secondary; }
+      &.primary::before   { background: $primary; }
+      &.tertiary::before  { background: $tertiary; }
+      &.dark::before      { background: $on-surface; }
+    }
+  }
+
+  .area-chart-wrap {
+    position: relative;
+    margin-top: 16px;
+
+    .y-axis-label-sm {
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+      font-size: 9px;
+      font-weight: 700;
+      color: $outline;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .area-chart-canvas {
+      margin-left: 24px;
+      height: 240px;
+      border-radius: 12px;
+      background: $surface-container-low;
+      border: 1px solid rgba($outline-variant, 0.05);
+      overflow: hidden;
+
+      .area-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+
+    .x-axis-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding: 0 24px;
+
+      span {
+        font-size: 9px;
+        font-weight: 700;
+        color: $outline;
+      }
+    }
+  }
+
+  // ── Distribution Chart ────────────────────────────────────
+  .dist-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 240px;
+    padding: 0 16px;
+
+    .dist-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 64px;
+
+      .dist-bar {
+        width: 32px;
+        border-radius: 6px 6px 0 0;
+        transition: filter 0.2s;
+
+        &:hover { filter: brightness(1.1); }
+
+        &.color-secondary      { background: $secondary; }
+        &.color-primary        { background: $primary; }
+        &.color-tertiary       { background: $tertiary; }
+        &.color-outline        { background: $outline; }
+        &.color-outline-variant{ background: $outline-variant; }
+
+        &.dim { opacity: 0.6; }
+      }
+
+      .dist-label {
+        font-size: 8px;
+        font-weight: 700;
+        color: $outline-variant;
+        text-align: center;
+        line-height: 1.3;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+// ─── Shared helpers ───────────────────────────────────────────────────────────
+.date-input-sm {
+  background: $surface-container-low;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: $font-family;
+  font-size: 11px;
+  font-weight: 600;
+  color: $on-surface;
+  outline: none;
+
+  &:focus { box-shadow: 0 0 0 2px rgba($primary, 0.2); }
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &.outline-color { color: $outline; }
+
+  &:hover { background: $surface-container-low; }
+}

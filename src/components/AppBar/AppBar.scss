@@ -1,0 +1,130 @@
+@import '../../styles/variables.scss';
+
+.app-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: $sidebar-width;
+  z-index: 40;
+  height: 80px;
+  background: rgba($surface, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba($outline-variant, 0.3);
+  box-shadow: 0 12px 40px rgba(25, 28, 30, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+
+  .app-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .app-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .icon-round-btn {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: $on-surface-variant;
+    transition: background 0.2s;
+
+    &:hover { background: $surface-container-high; }
+
+    .material-symbols-outlined { font-size: 22px; }
+  }
+
+  .plant-select-wrapper {
+    position: relative;
+
+    .plant-select {
+      appearance: none;
+      background: $surface-container-low;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 40px 10px 16px;
+      font-family: $font-family;
+      font-size: 15px;
+      font-weight: 600;
+      color: $primary;
+      outline: none;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+
+      &:focus { box-shadow: 0 0 0 2px rgba($primary, 0.2); }
+    }
+
+    .select-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $primary;
+      pointer-events: none;
+      font-size: 20px;
+    }
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: $on-surface-variant;
+    font-family: $font-family;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.2s;
+
+    &:hover { background: $surface-container-high; }
+
+    .material-symbols-outlined { font-size: 20px; }
+  }
+
+  .notif-btn {
+    position: relative;
+
+    .notif-dot {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background: $tertiary;
+      border-radius: 50%;
+      border: 2px solid $surface;
+    }
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

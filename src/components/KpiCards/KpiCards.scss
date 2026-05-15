@@ -1,0 +1,91 @@
+@import '../../styles/variables.scss';
+
+.kpi-cards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.kpi-card {
+  background: $surface;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid $outline;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+
+  &.theme-blue { @include card-gradient-blue; }
+  &.theme-yellow { @include card-gradient-yellow; }
+  &.theme-red { @include card-gradient-red; }
+  &.theme-green { @include card-gradient-green; }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: $on-surface-variant;
+    display: block;
+  }
+
+  .card-value-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 8px;
+
+    .card-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: $on-surface;
+    }
+
+    .card-unit {
+      font-size: 14px;
+      font-weight: 500;
+      color: $on-surface-variant;
+    }
+  }
+
+  .card-trend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: $secondary;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 8px;
+
+    .icon {
+      font-size: 14px;
+    }
+  }
+
+  .card-chart {
+    margin-top: 16px;
+    height: 24px;
+    width: 100%;
+    opacity: 0.2;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.kpi-card:last-child .card-chart {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  margin-top: 0;
+}

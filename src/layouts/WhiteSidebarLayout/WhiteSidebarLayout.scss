@@ -1,0 +1,37 @@
+@import '../../styles/variables.scss';
+
+$ws-sidebar-width: 320px;
+
+.ws-layout {
+  min-height: 100vh;
+  background: $background;
+  position: relative;
+  overflow-x: hidden;
+
+  // Override app-bar position for wider sidebar
+  .app-bar {
+    left: $ws-sidebar-width;
+  }
+
+  .ws-main {
+    margin-left: $ws-sidebar-width;
+    margin-top: 80px;
+    padding: 32px;
+    min-height: calc(100vh - 80px);
+    position: relative;
+    z-index: 1;
+  }
+
+  .ws-bg-orb {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba($primary, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(40%, -40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}

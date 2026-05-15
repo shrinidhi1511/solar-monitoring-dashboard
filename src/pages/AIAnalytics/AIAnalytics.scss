@@ -1,0 +1,124 @@
+@import '../../styles/variables.scss';
+$purple: #a855f7;
+
+.ai-page {
+  display:flex; flex-direction:column; gap:24px;
+
+  .page-header {
+    display:flex; justify-content:space-between; align-items:flex-end;
+    .page-title { font-size:26px; font-weight:800; color:$on-surface; letter-spacing:-0.03em; }
+    .breadcrumb { display:flex; gap:8px; font-size:11px; font-weight:600; color:$outline; text-transform:uppercase; letter-spacing:0.1em; margin-top:6px; }
+    .breadcrumb-active { color:$primary; }
+  }
+
+  .ai-section-title { font-size:18px; font-weight:700; color:$on-surface; }
+
+  // ── Score card ──────────────────────────────────────────
+  .ai-score-card {
+    background:$surface-container-lowest; border-radius:24px; padding:28px;
+    border:1px solid rgba($outline-variant,0.1); box-shadow:0 4px 16px rgba(25,28,30,0.05);
+
+    .ai-score-header {
+      display:flex; align-items:center; gap:10px; font-size:17px; font-weight:700;
+      color:$purple; margin-bottom:24px;
+      .material-symbols-outlined { font-size:24px; }
+    }
+
+    .ai-score-grid { display:flex; flex-direction:column; gap:16px; margin-bottom:24px; }
+  }
+
+  .score-item { display:flex; flex-direction:column; gap:6px; }
+  .score-row  { display:flex; justify-content:space-between; }
+  .score-label { font-size:13px; font-weight:600; color:$on-surface-variant; }
+  .score-val   { font-size:13px; font-weight:800; color:$on-surface; }
+  .score-track {
+    height:8px; background:$surface-container-high; border-radius:9999px; overflow:hidden;
+    .score-fill {
+      height:100%; border-radius:9999px; transition:width 0.7s cubic-bezier(0.34,1.56,0.64,1);
+      &.color-primary   { background:$primary; }
+      &.color-secondary { background:$secondary; }
+      &.color-purple    { background:$purple; }
+    }
+  }
+
+  .ai-prediction-box {
+    display:flex; align-items:flex-start; gap:14px; padding:16px 20px;
+    background:linear-gradient(135deg, rgba($purple,0.06) 0%, rgba($primary,0.04) 100%);
+    border:1px solid rgba($purple,0.2); border-radius:14px;
+    .material-symbols-outlined { font-size:24px; color:$purple; flex-shrink:0; margin-top:2px; }
+    .pred-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:$purple; margin-bottom:4px; }
+    .pred-value { font-size:14px; font-weight:600; color:$on-surface; }
+  }
+
+  // ── Report cards ────────────────────────────────────────
+  .ai-reports-grid { display:flex; flex-direction:column; gap:10px; }
+
+  .ai-report-card {
+    display:flex; align-items:center; gap:16px; padding:18px 22px;
+    background:$surface-container-lowest; border-radius:16px;
+    border:1px solid rgba($outline-variant,0.12); transition:box-shadow 0.2s, transform 0.18s;
+    &:hover { transform:translateX(4px); box-shadow:0 4px 16px rgba(25,28,30,0.07); }
+
+    .ai-report-icon { font-size:30px; flex-shrink:0; }
+    .ai-report-info { flex:1; }
+    .ai-report-title { font-size:15px; font-weight:700; color:$on-surface; }
+    .ai-report-sub   { font-size:12px; color:$outline-variant; margin-top:2px; }
+    .ai-report-size  { font-size:11px; font-weight:600; color:$outline; margin-top:4px; }
+
+    &.color-primary   .ai-report-icon { color:$primary; }
+    &.color-secondary .ai-report-icon { color:$secondary; }
+    &.color-purple    .ai-report-icon { color:$purple; }
+    &.color-fault     .ai-report-icon { color:$tertiary; }
+    &.color-ai        .ai-report-icon { color:$purple; }
+
+    .ai-dl-btn {
+      width:40px; height:40px; background:$surface-container-low; border:none; border-radius:10px;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      color:$primary; flex-shrink:0; transition:background 0.2s, transform 0.15s;
+      &:hover  { background:$primary; color:$on-primary; }
+      &:active { transform:scale(0.92); }
+      .material-symbols-outlined { font-size:20px; }
+    }
+  }
+
+  // ── Anomaly table ───────────────────────────────────────
+  .ai-anomaly-table {
+    background:$surface-container-lowest; border-radius:20px; overflow:hidden;
+    border:1px solid rgba($outline-variant,0.12);
+    table { width:100%; border-collapse:collapse; }
+    th { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:$outline; padding:14px 20px; text-align:left; background:$surface-container-low; }
+    td { padding:14px 20px; font-size:13px; color:$on-surface-variant; border-top:1px solid rgba($outline-variant,0.1); }
+    td strong { color:$on-surface; font-weight:700; }
+    .mono { font-family:monospace; font-size:12px; }
+  }
+
+  .sev-badge {
+    font-size:10px; font-weight:700; padding:3px 10px; border-radius:6px; text-transform:uppercase; letter-spacing:0.05em;
+    &.sev-fault   { background:rgba($tertiary,0.1);  color:$tertiary; }
+    &.sev-warning { background:rgba(#f59e0b,0.1);    color:#d97706; }
+    &.sev-info    { background:rgba($primary,0.1);   color:$primary; }
+  }
+
+  // ── Recommendations ─────────────────────────────────────
+  .ai-recs { display:flex; flex-direction:column; gap:10px; }
+
+  .ai-rec {
+    display:flex; align-items:flex-start; gap:14px; padding:16px 20px;
+    background:$surface-container-lowest; border-radius:16px;
+    border-left:4px solid transparent; border:1px solid rgba($outline-variant,0.1);
+    .material-symbols-outlined { font-size:22px; flex-shrink:0; margin-top:1px; }
+    .rec-text { flex:1; font-size:13px; color:$on-surface-variant; line-height:1.5; }
+
+    &.prio-high   { border-left:4px solid $tertiary;  .material-symbols-outlined { color:$tertiary; } }
+    &.prio-medium { border-left:4px solid #f59e0b;    .material-symbols-outlined { color:#d97706; } }
+    &.prio-info   { border-left:4px solid $secondary; .material-symbols-outlined { color:$secondary; } }
+
+    .rec-badge {
+      font-size:10px; font-weight:700; padding:3px 10px; border-radius:6px;
+      text-transform:uppercase; flex-shrink:0; align-self:flex-start;
+      &.prio-high   { background:rgba($tertiary,0.1); color:$tertiary; }
+      &.prio-medium { background:rgba(#f59e0b,0.1);   color:#d97706; }
+      &.prio-info   { background:rgba($secondary,0.1);color:$secondary; }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@import '../../styles/variables.scss';
+$orange: #f59e0b;
+
+.smd-page {
+  display: flex; flex-direction: column; gap: 28px; padding-bottom: 48px;
+
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;
+    .page-title { font-size: 26px; font-weight: 800; color: $on-surface; letter-spacing:-0.03em; }
+    .breadcrumb { display:flex; gap:8px; font-size:11px; font-weight:600; color:$outline; text-transform:uppercase; letter-spacing:0.1em; margin-top:6px; }
+    .breadcrumb-active { color: $primary; }
+  }
+
+  .smd-fleet-row {
+    display: flex; gap: 10px;
+    .fleet-chip {
+      display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:12px;
+      font-size:12px; font-weight:700; border:1px solid transparent;
+      .material-symbols-outlined { font-size:16px; }
+      &.normal { background:rgba($secondary,0.08); color:$secondary; border-color:rgba($secondary,0.2); }
+      &.low    { background:rgba($orange,0.1);     color:darken($orange,15%); }
+      &.fault  { background:rgba($tertiary,0.1);   color:$tertiary; }
+    }
+  }
+
+  // AI insight card
+  .smd-ai-card {
+    background: linear-gradient(135deg, rgba(#a855f7,0.05) 0%, rgba($primary,0.04) 100%);
+    border:1px solid rgba(#a855f7,0.2); border-radius:20px; padding:24px;
+
+    .smd-ai-title {
+      display:flex; align-items:center; gap:10px; font-size:16px; font-weight:700;
+      color:#a855f7; margin-bottom:16px;
+      .material-symbols-outlined { font-size:22px; }
+    }
+
+    .smd-ai-insights { display:flex; flex-direction:column; gap:10px; }
+
+    .smd-insight {
+      display:flex; align-items:flex-start; gap:10px; padding:12px 16px; border-radius:12px;
+      font-size:13px; line-height:1.5; font-weight:500;
+      .material-symbols-outlined { font-size:18px; flex-shrink:0; margin-top:1px; }
+      &.fault  { background:rgba($tertiary,0.07); color:$tertiary; }
+      &.low    { background:rgba($orange,0.08);   color:darken($orange,20%); }
+      &.normal { background:rgba($secondary,0.07); color:$secondary; }
+    }
+  }
+
+  // String grid
+  .smd-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:14px;
+  }
+
+  .smd-card {
+    background:$surface-container-lowest; border-radius:18px; padding:18px;
+    border:2px solid transparent; transition:transform 0.18s, box-shadow 0.18s;
+    box-shadow:0 2px 8px rgba(25,28,30,0.05);
+    &:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(25,28,30,0.09); }
+    &.fault { border-color:rgba($tertiary,0.35); }
+    &.low   { border-color:rgba($orange,0.3); }
+
+    .smd-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+    .smd-id { font-size:14px; font-weight:800; color:$on-surface; }
+  }
+
+  .smd-badge {
+    display:flex; align-items:center; gap:3px; font-size:9px; font-weight:700;
+    padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.05em;
+    .material-symbols-outlined { font-size:13px; }
+    &.normal { background:rgba($secondary,0.1); color:$secondary; }
+    &.low    { background:rgba($orange,0.1);    color:darken($orange,15%); }
+    &.fault  { background:rgba($tertiary,0.1);  color:$tertiary; }
+  }
+
+  .smd-readings { display:flex; justify-content:space-between; margin-bottom:12px; }
+  .smd-reading  { display:flex; flex-direction:column; gap:2px; }
+  .smd-read-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:$outline; }
+  .smd-read-val   { font-size:15px; font-weight:700; color:$on-surface; }
+
+  .smd-bar-wrap { display:flex; align-items:center; gap:8px; }
+  .smd-bar-track {
+    flex:1; height:6px; background:$surface-container-high; border-radius:9999px; overflow:hidden;
+    .smd-bar-fill {
+      height:100%; border-radius:9999px; transition:width 0.5s ease;
+      &.normal { background:$secondary; }
+      &.low    { background:$orange; }
+      &.fault  { background:$tertiary; }
+    }
+  }
+  .smd-bar-pct { font-size:10px; font-weight:700; color:$outline; min-width:28px; text-align:right; }
+}

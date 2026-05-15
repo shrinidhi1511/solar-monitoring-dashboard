@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.sidebar-layout {
+  min-height: 100vh;
+  background: $background;
+  position: relative;
+  overflow-x: hidden;
+
+  .sidebar-main {
+    margin-left: $sidebar-width;
+    margin-top: 80px;
+    padding: 32px;
+    min-height: calc(100vh - 80px);
+    position: relative;
+  }
+
+  .bg-orb {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba($primary, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(40%, -40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}

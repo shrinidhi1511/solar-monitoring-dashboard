@@ -1,0 +1,118 @@
+@import '../../styles/variables.scss';
+
+.plant-info-card {
+  background: $surface;
+  border-radius: 8px;
+  border: 1px solid $outline;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .card-image-header {
+    height: 128px;
+    width: 100%;
+    position: relative;
+
+    .plant-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+
+      .overlay-title {
+        color: white;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+    }
+  }
+
+  .card-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 16px;
+      row-gap: 24px;
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .label {
+          font-size: 10px;
+          font-weight: 700;
+          color: $on-surface-variant;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .value {
+          font-size: 14px;
+          font-weight: 700;
+          color: $on-surface;
+
+          .unit {
+            font-size: 10px;
+            color: $on-surface-variant;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .efficiency-section {
+      padding-top: 24px;
+      border-top: 1px solid rgba($outline, 0.5);
+      margin-top: auto;
+
+      .efficiency-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+
+        .label {
+          color: $on-surface-variant;
+          font-weight: 500;
+        }
+
+        .value {
+          font-weight: 700;
+          color: $secondary;
+        }
+      }
+
+      .progress-bar-bg {
+        width: 100%;
+        background: $background;
+        height: 6px;
+        border-radius: 9999px;
+        margin-top: 8px;
+        overflow: hidden;
+
+        .progress-bar-fill {
+          background: $secondary;
+          height: 100%;
+          border-radius: 9999px;
+        }
+      }
+    }
+  }
+}
